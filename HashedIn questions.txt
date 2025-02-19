@@ -1,0 +1,268 @@
+1. Problem Statement: Rahul copies in the exam from his adjacent students. But he doesn’t want
+to be caught, so he changes words keeping the leƩer constant. That means he interchanges
+the posiƟons of leƩers in words. You are the examiner and you have to find if he has copied a
+certain word from the one adjacent student who is giving the same exam, and give Rahul the
+markings he deserves.
+Note that: Uppercase and lowercase are the same.
+Input Format:
+ First line with the adjacent student’s word
+ Second line with Rahul’s word
+Output Format:
+ 0 if not copied
+ 1 if copied
+ Constraints:
+ 1<=Length of string<=10^6
+
+Sample Input:
+ CAR
+ Acr
+
+Sample Output:
+ 1
+
+
+import java.util.Arrays;
+public class Main
+{
+    public static void CopyCat(char[] s,char[] s1)
+    {
+        
+        if(s.length == s1.length)
+        {
+            Arrays.sort(s); // sorts the given string Character
+            System.out.println(s);
+            Arrays.sort(s1);  // sorts the given string Character
+                        System.out.println(s1);
+
+            for(int i=0;i<s.length;i++)
+            {
+                if(s[i]==s1[i])
+                {
+                    System.out.println("1");
+                    break;
+                }
+                else{
+                    System.out.println("0");
+                }
+            }
+        }
+    }
+	public static void main(String[] args) {
+	    String s = "Car";
+	    String s1 = "Acr";
+	    s=s.toLowerCase();
+        s1=s1.toLowerCase();
+	    char[] ch = s.toCharArray();
+	    char[] ch2 = s1.toCharArray();
+	    Main m = new Main();
+	    m.CopyCat(ch,ch2);
+		
+		
+	}
+}
+
+
+
+
+
+
+
+2.    Problem Statement: You are given an array, You have to choose a conƟguous subarray of
+length ‘k’, and find the minimum of that segment, return the maximum of those minimums.
+Sample input :
+ 1 → Length of segment x =1
+ 5 → size of space n = 5
+ 1 → space = [ 1,2,3,1,2]
+ 2
+
+ 3
+ 1
+ 2
+Sample output :
+ 3
+ExplanaƟon :
+ The subarrays of size x = 1 are [1],[2],[3],[1], and [2],Because each subarray only
+contains 1 element, each value is minimal with respect to the subarray it is in. The
+maximum of these values is 3. Therefore, the answer is 3 
+
+ 
+import java.util.Scanner;
+import java.util.*;
+import java.util.Stack;
+public class Main{
+
+    public static int findMaxOfMin(int[] arr, int k) {
+        int n = arr.length;
+        int[] left = new int[n];
+        int[] right = new int[n];
+
+        // Initialize left array
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);
+        for (int i = 1; i < n; i++) {
+            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
+                stack.pop();
+            }
+            left[i] = stack.isEmpty() ? 0 : stack.peek() + 1;
+            stack.push(i);
+        }
+
+        // Initialize right array
+        stack.clear();
+        stack.push(n - 1);
+        for (int i = n - 2; i >= 0; i--) {
+            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
+                stack.pop();
+            }
+            right[i] = stack.isEmpty() ? n - 1 : stack.peek() - 1;
+            stack.push(i);
+        }
+
+        // Find the maximum of minimums
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            if (right[i] - left[i] + 1 >= k) {
+                max = Math.max(max, arr[i]);
+            }
+        }
+
+        return max;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt(); // Size of the array
+        int k = scanner.nextInt(); // Size of the subarray
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        int result = findMaxOfMin(arr, k);
+        System.out.println(result);
+    }
+}
+
+
+
+
+
+
+3. Trapezium paƩern
+Anirudh is aƩending an astronomy lecture. His professor who is very strict asks students to
+Write a program to print the trapezium paƩern using stars and dots as shown below . Since
+Anirudh is not good at astronomy can you help him?
+Sample Input:
+ N = 3
+Output:
+**.**
+*...*
+.....
+*...*
+**.**
+
+
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= N - i; j++) {
+                System.out.print("*");
+            }
+            for (int j = 1; j <= 2 * i - 1; j++) {
+                System.out.print(".");
+            }
+            for (int j = 1; j <= N - i; j++) {
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+
+        for (int i = N - 1; i >= 1; i--) {
+            for (int j = 1; j <= N - i; j++) {
+                System.out.print("*");
+            }
+            for (int j = 1; j <= 2 * i - 1; j++) {
+                System.out.print(".");
+            }
+            for (int j = 1; j <= N - i; j++) {
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+}
+
+
+
+4. There is a player with a flashlight and N enemies located on a plane. Your task is to find the number of enemies highlighted by the flashlight.
+The player is looking in one of four directions (up, down, left or right) and is shining a flashlight in the direction of view. The flashlight has a light length of radius and a light field of 90 degrees (45 to the left and 45 to the right from the front of the player). This direction is represented by a string direction in the following way:
+direction = "U" → up,
+• direction = "D" → down,
+• direction = "L" left,
+• direction = "R" - right.
+The positions of N enemies are described by two arrays X and Y, both of N integers. The K-th enemy position is represented by the pair ( X[K] Y[K] ) - the coordinates on the plane.
+The positions of the player (which is fixed at (0, 0) ) and the enemies are different. There is at most one person in each position. The distance between two positions (x_{1}, y_{1}) and (x_{2}, y_{2}) is the square root of (x_{1} - x_{2}) ^ 2 + (y_{1} - y_{2}) ^ 2
+For the enemy to be highlighted by the flashlight, their position has to be within both the light field and the light length of the player's
+
+
+
+import java.util.*;
+
+public class Main{
+
+    public static int countHighlightedEnemies(int N, String direction, int radius, int[] X, int[] Y) {
+        int count = 0;
+
+        // Calculate the angle of the flashlight beam based on the direction
+        double angle = 0;
+        if (direction.equals("U")) {
+            angle = Math.PI / 2; // 90 degrees
+        } else if (direction.equals("D")) {
+            angle = -Math.PI / 2; // -90 degrees
+        } else if (direction.equals("L")) {
+            angle = Math.PI; // 180 degrees
+        } else if (direction.equals("R")) {
+            angle = 0; // 0 degrees
+        }
+
+        // Calculate the angle of each enemy from the player's position
+        for (int i = 0; i < N; i++) {
+            double enemyAngle = Math.atan2(Y[i], X[i]); 
+
+            // Check if the enemy is within the light field (90 degrees)
+            if (Math.abs(enemyAngle - angle) <= Math.PI / 4) { 
+                // Check if the enemy is within the light length (radius)
+                double distance = Math.sqrt(X[i] * X[i] + Y[i] * Y[i]);
+                if (distance <= radius) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        String direction = scanner.next();
+        int radius = scanner.nextInt();
+
+        int[] X = new int[N];
+        int[] Y = new int[N];
+
+        for (int i = 0; i < N; i++) {
+            X[i] = scanner.nextInt();
+            Y[i] = scanner.nextInt();
+        }
+
+        int highlightedEnemies = countHighlightedEnemies(N, direction, radius, X, Y);
+        System.out.println(highlightedEnemies);
+    }
+}
